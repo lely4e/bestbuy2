@@ -18,12 +18,18 @@ def display_menu():
     )
 
 
+def show_product_items(store_object):
+    """Show all products in the list"""
+    product_items = store_object.get_all_products()
+    for i, product in enumerate(product_items, start=1):
+        print(f"{i}. ", end="")
+        print(product)
+
+
 def list_all_products(store_object):
     """List all products"""
     print("------")
-    product_items = store_object.get_all_products()
-    for product in product_items:
-        product.show()
+    show_product_items(store_object)
     print("------")
 
 
@@ -37,13 +43,11 @@ def show_total_amount(store_object):
 def make_order(store_object):
     """Make an order"""
     print("------")
-    product_items = store_object.get_all_products()
-    for i, product in enumerate(product_items, start=1):
-        print(f"{i}. ", end="")
-        product.show()
+    show_product_items(store_object)
     print("------")
     print("When you want to finish order, enter empty text.")
 
+    product_items = store_object.get_all_products()
     shopping_list = []
 
     while True:

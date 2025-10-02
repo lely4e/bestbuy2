@@ -29,17 +29,24 @@ class NonStockedProduct:
         """Deactivate the product"""
         self.active = False
 
-    def show(self):
+    def __str__(self):
         """Display the product"""
-        print(f"{self.name}, Price: {self.price}")  # , Promotion: {self.promotion}
+        if self.promotion:
+            return f"{self.name}, Price: {self.price}, Promotion: {self.promotion}"
+        return f"{self.name}, Price: {self.price}"
 
     def buy(self, amount) -> float:
         """Buy a quantity of the product"""
+        total_price = self.price * amount
+
         if amount <= 0:
             raise ValueError("Quantity must be a positive number")
 
+        if self.promotion:
+            total_price = self.promotion.apply_promotion(self.price, amount)
+
         # Returns the total price (float) of the purchase
-        return self.price * amount
+        return total_price
 
 
 class Product(NonStockedProduct):
@@ -70,9 +77,11 @@ class Product(NonStockedProduct):
         else:
             self.activate()
 
-    def show(self):
+    def __str__(self):
         """Display the product"""
-        print(f"{self.name}, Price: {self.price}, Quantity: {self.quantity}")
+        if self.promotion:
+            return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}, Promotion: {self.promotion}"
+        return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}"
 
     def buy(self, amount) -> float:
         """Buy a quantity of the product"""
@@ -85,6 +94,7 @@ class Product(NonStockedProduct):
             )
         if self.promotion:
             total_price = self.promotion.apply_promotion(self.price, amount)
+
         # Updates the quantity of the product
         self.quantity -= amount
 
@@ -108,11 +118,9 @@ class LimitedProduct(Product):
 
         self.maximum = maximum
 
-    def show(self):
+    def __str__(self):
         """Display the product"""
-        print(
-            f"{self.name}, Price: {self.price}, Quantity: {self.quantity}, Maximum: {self.maximum}"
-        )
+        return f"{self.name}, Price: {self.price}, Quantity: {self.quantity}, Maximum: {self.maximum}"
 
     def buy(self, amount) -> float:
         """Buy a quantity of the product"""
