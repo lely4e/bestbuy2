@@ -9,6 +9,13 @@ class NonStockedProduct:
         self.active = True
         self.name = name
         self.price = price
+        self.promotion = None
+
+    def get_promotion(self):
+        return self.promotion
+
+    def set_promotion(self, promo):
+        self.promotion = promo
 
     def is_active(self) -> bool:
         """Return True if the product is active, False otherwise."""
@@ -24,7 +31,7 @@ class NonStockedProduct:
 
     def show(self):
         """Display the product"""
-        print(f"{self.name}, Price: {self.price}")
+        print(f"{self.name}, Price: {self.price}")  # , Promotion: {self.promotion}
 
     def buy(self, amount) -> float:
         """Buy a quantity of the product"""
@@ -76,7 +83,8 @@ class Product(NonStockedProduct):
             raise ValueError(
                 "Error while making order! Quantity larger than what exists"
             )
-
+        if self.promotion:
+            total_price = self.promotion.apply_promotion(self.price, amount)
         # Updates the quantity of the product
         self.quantity -= amount
 
