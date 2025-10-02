@@ -25,7 +25,7 @@ def test_negative_price():
 def test_zero_quantity():
     """Test that when a product reaches 0 quantity, it becomes inactive."""
     product = Product("MacBook", price=1450, quantity=100)
-    product.buy(quantity=100)
+    product.buy(amount=100)
     assert product.is_active() == False
 
 
@@ -41,7 +41,7 @@ def test_larger_quantity():
     with pytest.raises(
         ValueError, match="Error while making order! Quantity larger than what exists"
     ):
-        product.buy(quantity=102)
+        product.buy(amount=102)
 
 
 pytest.main()
