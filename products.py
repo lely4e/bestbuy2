@@ -10,6 +10,7 @@ class NonStockedProduct:
         self.name = name
         self.price = price
         self.promotion = None
+        self.quantity = 0
 
     def get_promotion(self):
         return self.promotion
